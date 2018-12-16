@@ -15,17 +15,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wang.avi.AVLoadingIndicatorView;
+
 import yujeong.com.justformaybe.core.CamDetectionReceiver;
 
 public class MainActivity extends Activity {
     private WifiManager wifiManager;
     private Context context;
     private CamDetectionReceiver wifiScanReceiver;
+    private AVLoadingIndicatorView loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadingIndicator = findViewById(R.id.loading_indicator);
     }
 
     public void startDetection(View view) {
@@ -41,6 +45,7 @@ public class MainActivity extends Activity {
             wifiScanReceiver = new CamDetectionReceiver(new CamDetectionReceiver.SuccessListener() {
                 @Override
                 public void whenSuccess(int result) {
+                    loadingIndicator.hide();
                     Log.d("MAYBE", "result level: " + result);
                     Intent intent = new Intent(MainActivity.this, DetectActivity.class);
                     intent.putExtra("result", result);
@@ -49,6 +54,7 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void whenFailure(String whyFailed) {
+                    loadingIndicator.hide();
                     Log.d("MAYBE", "Failed to scan wifi: " + whyFailed);
                 }
             }, wifiManager);
@@ -61,6 +67,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(this, "처음에 뜬 권한 요청을 허용해주세요. ㅠ_ㅠ", Toast.LENGTH_LONG).show();
             }
             Log.d("MAYBE", "started to scan." + success);
+            loadingIndicator.show();
         } else {
             Toast.makeText(this, "Wifi가 활성화된 상태에서만 사용 가능합니다. ㅠ_ㅠ", Toast.LENGTH_LONG).show();
         }
