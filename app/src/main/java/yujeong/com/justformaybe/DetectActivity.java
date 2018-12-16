@@ -51,8 +51,6 @@ public class DetectActivity extends Activity {
             mainImage.setImageDrawable(getResources().getDrawable(R.drawable.danger));
             mainText.setTextColor(getResources().getColor(R.color.colorInDangerText));
             description.setTextColor(getResources().getColor(R.color.colorInDangerDescription));
-
-            ((ViewGroup.MarginLayoutParams) mainImage.getLayoutParams()).topMargin = 100;
             mainText.setText("DANGER");
             description.setText("몰카로 의심되는\n");
             description.append("와이파이가 있습니다.");
@@ -63,8 +61,6 @@ public class DetectActivity extends Activity {
             mainImage.setImageDrawable(getResources().getDrawable(R.drawable.warning));
             mainText.setTextColor(getResources().getColor(R.color.colorInWarningText));
             description.setTextColor(getResources().getColor(R.color.colorInWarningDescription));
-
-            ((ViewGroup.MarginLayoutParams) mainImage.getLayoutParams()).topMargin = 50;
             mainText.setText("WARNING");
             description.setText("출처가 확실하지 않은\n");
             description.append("와이파이가 있습니다.");
@@ -75,8 +71,6 @@ public class DetectActivity extends Activity {
             mainImage.setImageDrawable(getResources().getDrawable(R.drawable.safe));
             mainText.setTextColor(getResources().getColor(R.color.colorInSafeText));
             description.setTextColor(getResources().getColor(R.color.colorInSafeDescription));
-
-            ((ViewGroup.MarginLayoutParams) mainImage.getLayoutParams()).topMargin = 100;
             mainText.setText("SAFE");
             description.setText("몰카로부터 안전합니다.\n");
             description.append("그래도 혹시 모르니 주의해주세요.");
