@@ -14,6 +14,7 @@ public class CamDetectionReceiver extends BroadcastReceiver {
     public static final int LEVEL_IN_WARNING = 2;
     public static final int LEVEL_SAFE = 3;
 
+    private final String[] safeWifi = new String[] { "U+Net", "KT_GIGA", "olleh", "t-borad", "SK" };
     public interface SuccessListener {
         void whenSuccess(int result);
         void whenFailure(String whyFailed);
@@ -53,11 +54,19 @@ public class CamDetectionReceiver extends BroadcastReceiver {
 
         int camDetectionLevel = LEVEL_SAFE;
         List<ScanResult> results = wifiManager.getScanResults();
+
+        outerLoop:
         for (ScanResult result : results ) {
             String ssid = result.SSID;
             int level = result.level;
             long bootTime = android.os.SystemClock.elapsedRealtime();
             long lastSeen = bootTime - (result.timestamp / 1000);
+
+            // 안전한 와이파이의 이름은 신호 감지에서 제외한다.
+            for(String safeName : safeWifi) {
+                if(ssid.startsWith(safeName))
+                    continue outerLoop;
+            }
 
             if(ssid.length() > 25 && level < -80 && lastSeen < 60 * 5) {
                 camDetectionLevel = LEVEL_IN_DANGER;
