@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/splash"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/first_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:textSize="24sp"
+        android:textColor="#4F575B"
+        android:textStyle="bold"
+        android:text="혹시나 한번 더..."
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_below="@id/first_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="24sp"
+        android:textColor="#4F575B"
+        android:textStyle="bold"
+        android:text="너는 소중하니까"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/main_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/women"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"/>
+
     <Button
-        android:background="@color/colorPrimary"
+        android:background="@android:color/white"
+        android:layout_below="@id/main_image"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:textColor="@android:color/white"
-        android:text="Start"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:textColor="#4F575B"
+        android:text="몰카 탐지 시작"
         android:onClick="startDetection" />
+
 </RelativeLayout>
