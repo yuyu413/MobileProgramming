@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void whenSuccess(int result) {
                     loadingIndicator.hide();
+                    unregisterService();
                     Log.d("MAYBE", "result level: " + result);
                     Intent intent = new Intent(MainActivity.this, DetectActivity.class);
                     intent.putExtra("result", result);
@@ -56,6 +57,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void whenFailure(String whyFailed) {
                     loadingIndicator.hide();
+                    unregisterService();
                     Log.d("MAYBE", "Failed to scan wifi: " + whyFailed);
                 }
             }, wifiManager);
@@ -72,5 +74,9 @@ public class MainActivity extends Activity {
         } else {
             Toast.makeText(this, "Wifi가 활성화된 상태에서만 사용 가능합니다. ㅠ_ㅠ", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void unregisterService(){
+        context.unregisterReceiver(wifiScanReceiver);
     }
 }
