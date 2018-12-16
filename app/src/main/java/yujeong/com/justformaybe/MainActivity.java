@@ -10,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import yujeong.com.justformaybe.core.CamDetectionReceiver;
@@ -17,11 +19,18 @@ import yujeong.com.justformaybe.core.CamDetectionReceiver;
 public class MainActivity extends AppCompatActivity {
     private WifiManager wifiManager;
     private Context context;
+    private CamDetectionReceiver wifiScanReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        context.unregisterReceiver(wifiScanReceiver);
     }
 
     public void startDetection(View view) {
@@ -34,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
             context = getApplicationContext();
             wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            CamDetectionReceiver wifiScanReceiver = new CamDetectionReceiver(new CamDetectionReceiver.SuccessListener() {
+            wifiScanReceiver = new CamDetectionReceiver(new CamDetectionReceiver.SuccessListener() {
                 @Override
                 public void whenSuccess(int result) {
                     Log.d("MAYBE", "result level: " + result);
