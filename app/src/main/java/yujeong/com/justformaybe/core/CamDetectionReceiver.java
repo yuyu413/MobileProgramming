@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import java.util.List;
 
@@ -40,14 +41,14 @@ public class CamDetectionReceiver extends BroadcastReceiver {
         /*
             위험(DANGER) :
               RSSI 신호가 80 이상,
-              이름이 15자 이상인 와이파이가 하나 존재
-              마지막으로 발견된 시간이 최근 1분 이내인 경우
-            경고(WARNING) :
-              RSSI 신호가 40 이상,
-              이름이 15자 이상인 와이파이가 하나 존재
+              이름이 25자 이상인 와이파이가 하나 존재
               마지막으로 발견된 시간이 최근 5분 이내인 경우
+            경고(WARNING) :
+              RSSI 신호가 60 이상,
+              이름이 25자 이상인 와이파이가 하나 존재
+              마지막으로 발견된 시간이 최근 10분 이내인 경우
             안전(CLEAN) :
-              이름이 15자 이상인 와이파이가 없는 경우
+              그 외의 경우
         **/
 
         int camDetectionLevel = LEVEL_SAFE;
@@ -55,15 +56,14 @@ public class CamDetectionReceiver extends BroadcastReceiver {
         for (ScanResult result : results ) {
             String ssid = result.SSID;
             int level = result.level;
-            long timestamp = result.timestamp;
-            long lastSeen = System.currentTimeMillis() - result.timestamp;
-            lastSeen = (long) lastSeen / 1000;
+            long bootTime = android.os.SystemClock.elapsedRealtime();
+            long lastSeen = bootTime - (result.timestamp / 1000);
 
-            if(ssid.length() > 15 && level < -80 && lastSeen < 61) {
+            if(ssid.length() > 25 && level < -80 && lastSeen < 60 * 5) {
                 camDetectionLevel = LEVEL_IN_DANGER;
             }
 
-            if(camDetectionLevel != LEVEL_IN_DANGER && ssid.length() > 15 && level < -40 && lastSeen < 60 * 5) {
+            if(camDetectionLevel != LEVEL_IN_DANGER && ssid.length() > 25 && level < -60 && lastSeen < 60 * 10) {
                 camDetectionLevel = LEVEL_IN_WARNING;
             }
         }
