@@ -66,7 +66,7 @@ public class DetectActivity extends Activity {
 
             ((ViewGroup.MarginLayoutParams) mainImage.getLayoutParams()).topMargin = 50;
             mainText.setText("WARNING");
-            description.setText("출처가 확실하지 않은");
+            description.setText("출처가 확실하지 않은\n");
             description.append("와이파이가 있습니다.");
         }
 
