@@ -18,26 +18,32 @@
 
     <ImageView
         android:id="@+id/emoji_image"
+        android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/main_text"
+        android:background="@android:color/transparent"
         android:layout_marginTop="40dp"
         android:layout_below="@id/emoji_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"/>
+        android:textAlignment="center"
+        android:textSize="50sp"/>
 
     <TextView
         android:id="@+id/description"
+        android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"/>
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:lines="3" />
 
 </RelativeLayout>

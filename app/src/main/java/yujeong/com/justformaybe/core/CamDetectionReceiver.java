@@ -24,12 +24,14 @@ public class CamDetectionReceiver extends BroadcastReceiver {
     private WifiManager wifiManager;
 
     public CamDetectionReceiver(SuccessListener listener, WifiManager wifiManager){
+        Log.d("MAYBE", "Receiver was created");
         this.listener = listener;
         this.wifiManager = wifiManager;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("MAYBE", "Receiver received data");
         boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
         if (success) {
             scanSuccess();

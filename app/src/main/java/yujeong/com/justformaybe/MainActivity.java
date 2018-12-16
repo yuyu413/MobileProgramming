@@ -1,6 +1,7 @@
 package yujeong.com.justformaybe;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 
 import yujeong.com.justformaybe.core.CamDetectionReceiver;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private WifiManager wifiManager;
     private Context context;
     private CamDetectionReceiver wifiScanReceiver;
@@ -25,12 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        context.unregisterReceiver(wifiScanReceiver);
     }
 
     public void startDetection(View view) {
@@ -65,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             if(!success) {
                 Toast.makeText(this, "처음에 뜬 권한 요청을 허용해주세요. ㅠ_ㅠ", Toast.LENGTH_LONG).show();
             }
+            Log.d("MAYBE", "started to scan." + success);
         } else {
             Toast.makeText(this, "Wifi가 활성화된 상태에서만 사용 가능합니다. ㅠ_ㅠ", Toast.LENGTH_LONG).show();
         }
