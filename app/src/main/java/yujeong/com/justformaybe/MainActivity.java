@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.hide();
     }
 
     public void startDetection(View view) {
