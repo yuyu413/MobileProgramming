@@ -57,6 +57,8 @@
         android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:indicatorName="BallPulseIndicator"
+        app:indicatorName="LineScalePulseOutIndicator"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         />
 </RelativeLayout>
