@@ -15,19 +15,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class DetectActivity extends AppCompatActivity {
-    class WifiScanReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
-            if (success) {
-                scanSuccess();
-            } else {
-                scanFailure();
-            }
-        }
-    }
+import yujeong.com.justformaybe.core.CamDetectionReceiver;
 
+public class DetectActivity extends AppCompatActivity {
     private WifiManager wifiManager;
     private Context context;
 
@@ -43,44 +33,33 @@ public class DetectActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiScanReceiver wifiScanReceiver = new WifiScanReceiver();
+        CamDetectionReceiver wifiScanReceiver = new CamDetectionReceiver(new CamDetectionReceiver.SuccessListener() {
+            @Override
+            public void whenSuccess(int result) {
+                Log.d("MAYBE", "result level: " + result);
+                if(result == CamDetectionReceiver.LEVEL_IN_DANGER) {
+                    Toast.makeText(context, "몰카 위험이 있습니다.", Toast.LENGTH_LONG).show();
+                }
+
+                if(result == CamDetectionReceiver.LEVEL_IN_WARNING) {
+                    Toast.makeText(context, "몰카로 의심되는 물체가 있습니다. 주의하세요", Toast.LENGTH_LONG).show();
+                }
+
+                if(result == CamDetectionReceiver.LEVEL_SAFE) {
+                    Toast.makeText(context, "제가 진단한 바로는 안전한 환경입니다!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void whenFailure(String whyFailed) {
+                Log.d("MAYBE", "Failed to scan wifi: " + whyFailed);
+            }
+        }, wifiManager);
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         context.registerReceiver(wifiScanReceiver, intentFilter);
-
         boolean success = wifiManager.startScan();
-        if (!success) {
-            scanFailure();
-        }
-
         Log.d("MAYBE", "started to scan");
-    }
-
-
-    private void scanSuccess() {
-        List<ScanResult> results = wifiManager.getScanResults();
-        int counter = 1;
-        for (ScanResult result : results) {
-            Log.d("MAYBE", "---- count " + counter + "-----");
-            Log.d("MAYBE", "BSSID: " + result.BSSID);
-            Log.d("MAYBE", "Capabilities: " + result.capabilities);
-            Log.d("MAYBE", "Frequency: " + result.frequency);
-            Log.d("MAYBE", "Level: " + result.level);
-            Log.d("MAYBE", "channelWidth: " + result.channelWidth);
-            Log.d("MAYBE", "operatorFriendlyName: " + result.operatorFriendlyName);
-            Log.d("MAYBE", "venueName: " + result.venueName);
-            Log.d("MAYBE", "timestamp: " + result.timestamp);
-            Log.d("MAYBE", "toString(): " + result.toString());
-            Log.d("MAYBE", "---- count " + counter + " end ----");
-            counter += 1;
-        }
-    }
-
-    private void scanFailure() {
-        // handle failure: new scan did NOT succeed
-        // consider using old scan results: these are the OLD results!
-        List<ScanResult> results = wifiManager.getScanResults();
-        Toast.makeText(context, "Failed to scan wifi..", Toast.LENGTH_LONG).show();
     }
 }
