@@ -91,6 +91,7 @@ public class DetectActivity extends Activity {
     }
 
     public void showInfo(View view) {
-
+        Intent intent = new Intent(this, InfoActivity.class);
+        startActivity(intent);
     }
 }
